@@ -1,0 +1,17 @@
+version: '3'
+services:
+  document-reader:
+    image: document-reader
+    restart: unless-stopped
+    env_file:
+      - "${OG_DISTR_PATH}/document-reader/config.env"
+    networks:
+      - backend
+    command: ${STARTUP_COMMAND}
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+networks:
+  backend:
+    external: true

@@ -1,0 +1,8 @@
+git+http://python:python123@10.80.10.32/og/lib-msa.git#egg=lib-msa
+unoconv==0.8.2
+PyPDF2==1.26.0
+chardet==3.0.4
+pytest==5.3.5
+numpy==1.19.4
+pdf2image==1.14.0
+pdfrw==0.4
