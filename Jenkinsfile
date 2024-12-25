@@ -1,5 +1,11 @@
+#!groovy
+
+properties ([disableConcurrentBuilds()])
+
 pipeline {
-    agent any
+    agent { label 'MLOPS'}
+    
+    options {timestamps()}
 
     stages {
 
