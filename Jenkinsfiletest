@@ -1,0 +1,23 @@
+#!groovy
+
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { label 'MLOPS' }
+
+    options { timestamps() }
+
+    environment { 
+        OG_DISTR_PATH = credentials('OG_DISTR_PATH')
+    }
+
+    stages {
+        stage('Example') {
+            steps {
+                script {
+                    echo "Using credentials: ${OG_DISTR_PATH}"
+                }
+            }
+        }
+    }
+}
