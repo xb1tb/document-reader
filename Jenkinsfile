@@ -4,7 +4,9 @@ properties ([disableConcurrentBuilds()])
 
 pipeline {
     agent { label 'MLOPS'}
-    
+
+    // triggers { pollSCM('* * * * *') }  // ones a minute
+
     options {timestamps()}
 
     stages {
@@ -26,12 +28,13 @@ pipeline {
                 branch 'master'
             }
             steps {
+                withCredentials([string(credentialsId: 'OG_DISTR_PATH', variable: 'OG_DISTR_PATH')])
                 script {
                     // Save Docker image and other necessary files
-                    sh '''docker save document-reader | gzip -c > ${env.OG_DISTR_PATH}/containers/document-reader.tgz'''
+                    sh '''docker save document-reader | gzip -c > "${OG_DISTR_PATH}/containers/document-reader.tgz"'''
                     sh 'chmod +x document-reader.sh'
-                    sh '''cp document-reader.sh ${env.OG_DISTR_PATH}/containers/document-reader.sh'''
-                    sh '''cp docker-compose.yml ${env.OG_DISTR_PATH}/containers/document-reader.yml'''
+                    sh '''cp document-reader.sh "${OG_DISTR_PATH}/containers/document-reader.sh"'''
+                    sh '''cp docker-compose.yml "${OG_DISTR_PATH}/containers/document-reader.yml"'''
                 }
             }
         }
