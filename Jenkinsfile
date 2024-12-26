@@ -4,7 +4,7 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent { label 'MLOPS' }
-
+    // triggers { pollSCM('* * * * *') }
     options { timestamps() }
     environment { 
         OG_DISTR_PATH = credentials('OG_DISTR_PATH')
@@ -40,9 +40,9 @@ pipeline {
             // }
             steps {
                 script {
-                    def startupCommand = 'bash -c "cd /app && pip install --upgrade pip && pip install -r requirements.txt && python app.py"'
-
+                    
                     sh """
+                        export STARTUP_COMMAND="bash -c \\"cd /app ; pip install --upgrade pip ; pip install -r requirements.txt ; python app.py\\""
                         docker-compose -p document-reader down --remove-orphans
                         docker-compose -p document-reader up -d --remove-orphans
                         docker-compose -p document-reader stop
