@@ -46,7 +46,7 @@ pipeline {
                         docker-compose -p document-reader down --remove-orphans
                         docker-compose -p document-reader up -d --remove-orphans
                         docker-compose -p document-reader stop
-                        docker cp ./\$(docker-compose -p document-reader ps -q document-reader):/app
+                        docker cp ./ "$(docker-compose -p document-reader ps -q document-reader)":/app
                         docker-compose -p document-reader start
                     """
                 }
