@@ -12,18 +12,18 @@ pipeline {
     stages {
 
         stage('Build Docker Image') {
-            // when {
-                // branch 'master'
-            // }
+            when {
+                branch 'master'
+            }
             steps {
                 sh 'docker build --no-cache -t document-reader .'
             }
         }
 
         stage('Save Docker Image') {
-            // when {
-                // branch 'master'
-            // }
+            when {
+                branch 'master'
+            }
             steps {
                // withCredentials([string(credentialsId: 'OG_DISTR_PATH', variable: 'OG_DISTR_PATH')]) {
                     sh '''docker save document-reader | gzip -c > "${OG_DISTR_PATH}/containers/document-reader.tgz"'''
@@ -35,9 +35,12 @@ pipeline {
         }
 
         stage('Execute') {
-            // when {
-                // branch 'dev'
-            // }
+            when {
+                anyOf {
+                    branch 'dev'
+                    branch 'master'
+                }
+            }
             steps {
                 script {
                     
